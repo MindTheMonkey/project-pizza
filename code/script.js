@@ -57,10 +57,35 @@ const mikesPizzeria = () => {
     return;
   }
 
-  alert(`Great choice! You selected ${foodType}`);
+  alert(`You selected ${foodType}!`);
 
   // Step 3 - Subtype choice
-  // Your code goes here
+  // Lets grab the subtypes array from our food object based on the foodType selected
+
+  const subtypes = food[foodType];
+
+  // We use the subtypes array to populate our prompt. Since the array index starts at 0 we use index 0, 1, 2 to get the subtypes.
+  const orderSubtype = parseInt(
+    prompt (
+      `Please select the ${foodType} you would like to order.
+        Enter the number:
+        1. ${subtypes[0]}
+        2. ${subtypes[1]}
+        3. ${subtypes[2]}
+      `
+    )
+  );
+
+  if (orderSubtype === 1 || orderSubtype === 2 || orderSubtype === 3) {
+    // we subtract 1 from orderSubtype to get the correct index and save it to itemOrdered
+    const itemOrdered = subtypes[orderSubtype - 1];
+    alert(`Great choice! You ordered ${itemOrdered}`);
+  }
+  else {
+    alert(`I'm sorry. You tried to order something not on the menu. Goodbye`);
+    return;
+  }
+
 
   // Step 4 - Age
   // Your code goes here
