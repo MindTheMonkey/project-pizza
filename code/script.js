@@ -29,7 +29,7 @@ const mikesPizzeria = () => {
 
   // We prompt the customer for the number matching the food type and parse it to a integer.
   const orderType = parseInt(
-    prompt (
+    prompt(
       `What type of food would you like to order?
         Enter the number:
         1. Pizza
@@ -66,7 +66,7 @@ const mikesPizzeria = () => {
 
   // We use the subtypes array to populate our prompt. Since the array index starts at 0 we use index 0, 1, 2 to get the subtypes.
   const orderSubtype = parseInt(
-    prompt (
+    prompt(
       `Please select the ${foodType} you would like to order.
         Enter the number:
         1. ${subtypes[0]}
@@ -76,9 +76,11 @@ const mikesPizzeria = () => {
     )
   );
 
+  let itemOrdered = "";
+  // we check if the order subtype is 1,2 or 3 and if so store the item ordered. For any other case we give an error and exit
   if (orderSubtype === 1 || orderSubtype === 2 || orderSubtype === 3) {
     // we subtract 1 from orderSubtype to get the correct index and save it to itemOrdered
-    const itemOrdered = subtypes[orderSubtype - 1];
+    itemOrdered = subtypes[orderSubtype - 1];
     alert(`Great choice! You ordered ${itemOrdered}`);
   }
   else {
@@ -86,12 +88,53 @@ const mikesPizzeria = () => {
     return;
   }
 
-
   // Step 4 - Age
-  // Your code goes here
+  const customerAge = parseInt(
+    prompt(`In order for us to calculate the total amount please provide your age:`)
+  );
+
+  // We initialize two variables for portion size and price and then based on age we define these variables. If age input is invalid we give a error message and exit
+  let itemSize = "";
+  let itemPrice = 0;
+  // We check if age is between 0-17. We have equal or above zero as negative numbers would match if we just used below 18.
+  if ( (customerAge >= 0) && (customerAge < 18) ) {
+    itemSize = "childsize";
+    itemPrice = 10;
+  }
+  else if (customerAge >= 18) {
+    itemSize = "adultsize";
+    itemPrice = 15;
+  }
+  else {
+    alert(`Invalid age provided, your order has been cancelled`);
+    return;
+  }
+  // After validating the age input we now construct the confirmation message.
+  const confirmationMessage = `You ordered a ${itemSize} ${itemOrdered}. Your order total is ${itemPrice}`;
 
   // Step 5 - Order confirmation
-  // Your code goes here
+  const confirmOrder = parseInt(
+    prompt(
+      `${confirmationMessage}
+        Enter a number to confirm:
+        1  - Yes
+        2 - No
+      `
+    )
+  );
+
+  // Finally we have prompted the user to confirm their order and based on their input we either approve or decline the order. If the user provides invalid data we give an error and return.
+  if (confirmOrder === 1) {
+    alert(`Thank you for confirming your order. Your food is being prepared.`);
+  }
+  else if (confirmOrder === 2) {
+    alert(`We have cancelled your order. We look forward to serve you in the future.`);
+  }
+  else {
+    alert(`Incorrect selection. Unfortunately we were unable to confirm your order.`);
+    return;
+  }
 }
 
+// Above we declared the pizzeria code as a function but we haven't executed it. We now execute the function and as soon as we return from the function our script is done.
 mikesPizzeria();
