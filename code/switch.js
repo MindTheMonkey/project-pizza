@@ -10,7 +10,8 @@ const mikesPizzeria = () => {
   // Lets ask for the customers name and save it to a variable
   const customerName = prompt(`Welcome to Mike's Pizzera. What's your name?`);
 
-  // Let's check if the Customer entered a name and if they did greet them with an alert
+  // Let's check if the Customer entered a name and if they did greet them with an alert.
+  // Since this is currently only checking for one thing no need to change to switch
   if (customerName.trim() === "") {
     alert(`Sorry you need to provide a name to order food.`);
     return;
@@ -43,18 +44,22 @@ const mikesPizzeria = () => {
   let foodType = "";
 
   // If the customer selcted 1,2 or 3 we save the foodType and confirm their choice. If they entered anything else we prompt them with a error and shutdown.
-  if (orderType === 1) {
-    foodType = "Pizza";
-  }
-  else if (orderType === 2) {
-    foodType = "Pasta";
-  }
-  else if (orderType === 3) {
-    foodType = "Salad";
-  }
-  else {
-    alert(`You selected an invalid option. Please come back later.`);
-    return;
+  switch(orderType) {
+    case 1:
+      foodType = "Pizza";
+      break;
+
+    case 2:
+      foodType = "Pasta";
+      break;
+
+    case 3:
+      foodType = "Salad";
+      break;
+
+    default:
+      alert(`You selected an invalid option. Please come back later.`);
+      return;
   }
 
   alert(`You selected ${foodType}!`);
@@ -78,14 +83,16 @@ const mikesPizzeria = () => {
 
   let itemOrdered = "";
   // we check if the order subtype is 1,2 or 3 and if so store the item ordered. For any other case we give an error and exit
-  if (orderSubtype === 1 || orderSubtype === 2 || orderSubtype === 3) {
-    // we subtract 1 from orderSubtype to get the correct index and save it to itemOrdered
-    itemOrdered = subtypes[orderSubtype - 1];
-    alert(`Great choice! You ordered ${itemOrdered}`);
-  }
-  else {
-    alert(`I'm sorry. You tried to order something not on the menu. Goodbye`);
-    return;
+  switch(orderSubtype) {
+    case 1:
+    case 2:
+    case 3:
+      itemOrdered = subtypes[orderSubtype - 1];
+      alert(`Great choice! You ordered ${itemOrdered}`);
+      break;
+    default:
+      alert(`I'm sorry. You tried to order something not on the menu. Goodbye`);
+      return;
   }
 
   // Step 4 - Age
@@ -96,19 +103,25 @@ const mikesPizzeria = () => {
   // We initialize two variables for portion size and price and then based on age we define these variables. If age input is invalid we give a error message and exit
   let itemSize = "";
   let itemPrice = 0;
+
   // We check if age is between 0-17. We have equal or above zero as negative numbers would match if we just used below 18.
-  if ( (customerAge >= 0) && (customerAge < 18) ) {
-    itemSize = "childsize";
-    itemPrice = 10;
+  // Since switch will execute the first matching case, when we do a switch on the statement true it will match with the first case that resolves to true. And since we then break we jump out of the switch.
+  switch(true){
+    case customerAge >= 0 && customerAge < 18:
+      itemSize = "childsize";
+      itemPrice = 10;
+      break;
+
+    case customerAge >=18:
+      itemSize = "adultsize";
+      itemPrice = 15;
+      break;
+
+    default:
+      alert(`Invalid age provided, your order has been cancelled`);
+      return;
   }
-  else if (customerAge >= 18) {
-    itemSize = "adultsize";
-    itemPrice = 15;
-  }
-  else {
-    alert(`Invalid age provided, your order has been cancelled`);
-    return;
-  }
+
   // After validating the age input we now construct the confirmation message.
   const confirmationMessage = `You ordered a ${itemSize} ${itemOrdered}. Your order total is €${itemPrice}`;
 
@@ -123,16 +136,19 @@ const mikesPizzeria = () => {
     )
   );
 
-  // Finally we have prompted the user to confirm their order and based on their input we either approve or decline the order. If the user provides invalid data we give an error and return.
-  if (confirmOrder === 1) {
-    alert(`Thank you for confirming your order. Your food is being prepared.`);
-  }
-  else if (confirmOrder === 2) {
-    alert(`We have cancelled your order. We look forward to serve you in the future.`);
-  }
-  else {
-    alert(`Incorrect selection. Unfortunately we were unable to confirm your order.`);
-    return;
+   // Finally we have prompted the user to confirm their order and based on their input we either approve or decline the order. If the user provides invalid data we give an error and return.
+  switch(confirmOrder) {
+    case 1:
+      alert(`Thank you for confirming your order. Your food is being prepared.`);
+      break;
+
+    case 2:
+      alert(`We have cancelled your order. We look forward to serve you in the future.`);
+      break;
+
+    default:
+      alert(`Incorrect selection. Unfortunately we were unable to confirm your order.`);
+      return;
   }
 }
 
